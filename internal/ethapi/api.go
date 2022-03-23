@@ -2598,10 +2598,11 @@ func (s *BundleAPI) CallBundle(ctx context.Context, args CallBundleArgs) (map[st
 	gasFees := new(big.Int)
 	for i, tx := range txs {
 		nonce := state.GetNonce(tx.From())
+		expectedTx := new(types.Transaction)
 		if tx.To() == nil {
-			expectedTx := types.NewContractCreation(nonce, tx.Value(), tx.Gas(), tx.GasPrice(), tx.Data())
+			expectedTx = types.NewContractCreation(nonce, tx.Value(), tx.Gas(), tx.GasPrice(), tx.Data())
 		} else {
-			expectedTx := types.NewTransaction(nonce, *tx.To(), tx.Value(), tx.Gas(), tx.GasPrice(), tx.Data())
+			expectedTx = types.NewTransaction(nonce, *tx.To(), tx.Value(), tx.Gas(), tx.GasPrice(), tx.Data())
 		}
 		coinbaseBalanceBeforeTx := state.GetBalance(coinbase)
 		state.Prepare(expectedTx.Hash(), common.Hash{}, i)
