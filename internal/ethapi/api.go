@@ -2508,7 +2508,7 @@ func (s *BundleAPI) CallBundle(ctx context.Context, args CallBundleArgs) (map[st
 	var txs []types.Message
 
 	for _, encodedTx := range args.Txs {
-		tx, err := encodedTx.ToMessage(25000000, args.BaseFee)
+		tx, := encodedTx.ToMessage(25000000, args.BaseFee)
 		txs = append(txs, tx)
 	}
 	defer func(start time.Time) { log.Debug("Executing EVM call finished", "runtime", time.Since(start)) }(time.Now())
