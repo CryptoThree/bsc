@@ -2475,7 +2475,7 @@ func NewBundleAPI(b Backend, chain *core.BlockChain) *BundleAPI {
 
 // SendBundleArgs represents the arguments for a call.
 type CallBundleArgs struct {
-	Txs                    []CallArgs            `json:"txs"`
+	Txs                    []TransactionArgs     `json:"txs"`
 	BlockNumber            rpc.BlockNumber       `json:"blockNumber"`
 	StateBlockNumberOrHash rpc.BlockNumberOrHash `json:"stateBlockNumber"`
 	Coinbase               *string               `json:"coinbase"`
