@@ -201,6 +201,9 @@ type Config struct {
 
 	// AllowUnprotectedTxs allows non EIP-155 protected transactions to be send over RPC.
 	AllowUnprotectedTxs bool `toml:",omitempty"`
+
+	// EnableDoubleSignMonitor is a flag that whether to enable the double signature checker
+	EnableDoubleSignMonitor bool `toml:",omitempty"`
 }
 
 // IPCEndpoint resolves an IPC endpoint based on a configured value, taking into
@@ -499,8 +502,13 @@ func (c *Config) warnOnce(w *bool, format string, args ...interface{}) {
 }
 
 type LogConfig struct {
-	FileRoot     string
-	FilePath     string
-	MaxBytesSize uint
-	Level        string
+	FileRoot     *string `toml:",omitempty"`
+	FilePath     *string `toml:",omitempty"`
+	MaxBytesSize *uint   `toml:",omitempty"`
+	Level        *string `toml:",omitempty"`
+
+	// TermTimeFormat is the time format used for console logging.
+	TermTimeFormat *string `toml:",omitempty"`
+	// TimeFormat is the time format used for file logging.
+	TimeFormat *string `toml:",omitempty"`
 }

@@ -4,7 +4,7 @@ ARG VERSION=""
 ARG BUILDNUM=""
 
 # Build Geth in a stock Go builder container
-FROM golang:1.17-alpine as builder
+FROM golang:1.19-alpine as builder
 
 RUN apk add --no-cache make gcc musl-dev linux-headers git bash
 # Get dependencies - will also be cached if we won't change go.mod/go.sum
@@ -16,7 +16,7 @@ ADD . /go-ethereum
 RUN cd /go-ethereum && go run build/ci.go install ./cmd/geth
 
 # Pull Geth into a second stage deploy alpine container
-FROM alpine:3.16.0
+FROM alpine:3.17
 
 ARG BSC_USER=bsc
 ARG BSC_USER_UID=1000
@@ -26,9 +26,9 @@ ENV BSC_HOME=/bsc
 ENV HOME=${BSC_HOME}
 ENV DATA_DIR=/data
 
-ENV PACKAGES ca-certificates~=20220614-r0 jq~=1.6 \
-  bash~=5.1.16-r2 bind-tools~=9.16.33 tini~=0.19.0 \
-  grep~=3.7 curl~=7.83.1 sed~=4.8-r0
+ENV PACKAGES ca-certificates jq \
+  bash bind-tools tini \
+  grep curl sed
 
 RUN apk add --no-cache $PACKAGES \
   && rm -rf /var/cache/apk/* \
